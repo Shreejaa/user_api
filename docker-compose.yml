@@ -1,0 +1,30 @@
+version : "3"
+services:
+ discovery:
+  image: shreejaa/jpop:discoveryservice
+  ports:
+   - "8761:8761"
+ userapi:
+  image: userapi:0.0.2
+  ports:
+   - "8090:8090"
+  networks:
+   - lms
+  depends_on:
+   - discovery
+   - mysql
+     
+ mysql:
+  image: mysql:8
+  networks:
+   - lms
+  environment:
+   - MYSQL_ROOT_PASSWORD=root
+   - MYSQL_DATABASE=usersdb
+  volumes:
+   - mydata:/var/lib/mysql
+networks:
+  lms: 
+
+volumes:
+    mydata:
